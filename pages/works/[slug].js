@@ -285,6 +285,7 @@ const PhotoDetail = ({ photos, item }) => {
 };
 export default PhotoDetail;
 
+
 export async function getStaticPaths() {
   const data = await fetch('https://portfolio-egriboz.vercel.app/worksdata.json')
   const photos = await data.json()
