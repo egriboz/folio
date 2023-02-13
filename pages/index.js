@@ -53,7 +53,7 @@ export default function Home({ photos }) {
   );
 }
 export async function getStaticProps() {
-  const data = await fetch('https://portfolio-egriboz.vercel.app/worksdata.json')
+  const data = await fetch('https://folio-egriboz.vercel.app/worksdata.json')
   const photos = await data.json()
   return {
     props: {

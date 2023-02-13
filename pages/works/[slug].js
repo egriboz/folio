@@ -287,7 +287,7 @@ export default PhotoDetail;
 
 
 export async function getStaticPaths() {
-  const data = await fetch('https://portfolio-egriboz.vercel.app/worksdata.json')
+  const data = await fetch('https://folio-egriboz.vercel.app/worksdata.json')
   const photos = await data.json()
 
   const paths = photos.map(item => ({
@@ -299,7 +299,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   // const id = params.slug.split('-').slice(-1)[0]
-  const data = await fetch('https://portfolio-egriboz.vercel.app/worksdata.json')
+  const data = await fetch('https://folio-egriboz.vercel.app/worksdata.json')
   const photos = await data.json()
   const item = photos.find(item => item.slug === params.slug);
 
