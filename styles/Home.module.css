@@ -1,0 +1,34 @@
+.container {
+  
+ }
+ 
+ .pagination {
+  
+ }
+ 
+ .pageLink {
+  
+ }
+ 
+ /* pagination pageItem */
+ .pageItem {
+ }
+ 
+ /* pagination page item when active */
+ .pageItemActive {
+  background: violet;
+ }
+ .disabledButton{
+  pointer-events: none;
+  color: white;
+  background: red;
+
+  border: 1px solid gray;
+  padding: 10px;
+ }
+ .enabledButton{
+  border: 1px solid gray;
+  padding: 10px;
+  color: white;
+  background: rebeccapurple;
+}
