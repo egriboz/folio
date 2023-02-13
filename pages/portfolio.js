@@ -5,11 +5,11 @@ import React, { useState, useContext, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 // import { photos } from "../data/photos";
-import { photos } from "../data/worksdata";
+// import { photos } from "../data/worksdata";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-export default function Works() {
+export default function Works({ photos }) {
 
   const router = useRouter();
   const { asPath } = router;
@@ -64,14 +64,14 @@ export default function Works() {
 
       <Layout>
 
-        <MainItemsContainer deltaY={deltaY} maxDelta={maxDelta} />
+        <MainItemsContainer photos={photos} deltaY={deltaY} maxDelta={maxDelta} />
 
         <footer></footer>
       </Layout>
     </>
   );
 }
-const MainItemsContainer = ({ deltaY, maxDelta }) => {
+const MainItemsContainer = ({ photos, deltaY, maxDelta }) => {
   /* ===== */
   console.log("photosLength: ", photos.length);
 
@@ -131,16 +131,17 @@ const MainItemsContainer = ({ deltaY, maxDelta }) => {
                 }}
               >
                 <a>
-                  <img
-
-                    src={photo.src}
-                    alt={photo.title}
-                    style={{
-                      // opacity: "1 !important",
-                      objectFit: "cover",
-                      objectPosition: "center",
-                    }}
-                  />
+                  <picture>
+                    <img
+                      src={photo.src}
+                      alt={photo.title}
+                      style={{
+                        // opacity: "1 !important",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                      }}
+                    />
+                  </picture>
                 </a>
               </Link>
             </motion.div>
@@ -170,16 +171,18 @@ const MainItemsContainer = ({ deltaY, maxDelta }) => {
                 }}
               >
                 <a>
-                  <img
+                  <picture>
+                    <img
 
-                    src={photo.src}
-                    alt={photo.title}
-                    style={{
-                      // opacity: "1 !important",
-                      objectFit: "cover",
-                      objectPosition: "center",
-                    }}
-                  />
+                      src={photo.src}
+                      alt={photo.title}
+                      style={{
+                        // opacity: "1 !important",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                      }}
+                    />
+                  </picture>
                 </a>
               </Link>
             </motion.div>
@@ -209,16 +212,18 @@ const MainItemsContainer = ({ deltaY, maxDelta }) => {
                 }}
               >
                 <a>
-                  <img
+                  <picture>
+                    <img
 
-                    src={photo.src}
-                    alt={photo.title}
-                    style={{
-                      // opacity: "1 !important",
-                      objectFit: "cover",
-                      objectPosition: "center",
-                    }}
-                  />
+                      src={photo.src}
+                      alt={photo.title}
+                      style={{
+                        // opacity: "1 !important",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                      }}
+                    />
+                  </picture>
                 </a>
               </Link>
             </motion.div>
@@ -229,19 +234,13 @@ const MainItemsContainer = ({ deltaY, maxDelta }) => {
     </div>
   );
 };
-// export async function getStaticProps() {
-//   const data = await fetch('http://localhost:3000/photos.json')
-//   const photos = await data.json()
 
-//   return {
-//     props: {
-//       photos
-//     }
-//   }
-// }
-// Works.getInitialProps = async (context) => {
-//   const deltaY = context.req && context.req.cookies && context.req.cookies.deltaY ? context.req.cookies.deltaY : 0;
-//   const maxDelta = context.req && context.req.cookies && context.req.cookies.maxDelta ? context.req.cookies.maxDelta : 0;
-
-//   return { deltaY, maxDelta };
-// };
+export async function getStaticProps() {
+  const data = await fetch('https://folio-egriboz.vercel.app/worksdata.json')
+  const photos = await data.json()
+  return {
+    props: {
+      photos
+    }
+  }
+}

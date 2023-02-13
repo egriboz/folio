@@ -19,13 +19,13 @@ import { LoremIpsum } from "react-lorem-ipsum";
 import Pagination from "../../components/Pagination";
 import Script from "next/script";
 
-const PhotoDetail = ({ photos, item }) => {
+const PhotoDetail = ({ photos, page }) => {
 
   const router = useRouter();
   console.log("router ==> ", { router });
   const { slug } = router.query;
   const { indexOf } = router.query;
-  const photoId = item.id;
+  const photoId = page.id;
   console.log("photoId:::", photoId)
   const [photo, setPhoto] = useState();
   const totalPage = photos.length;
@@ -131,7 +131,7 @@ const PhotoDetail = ({ photos, item }) => {
                   <hr />
 
 
-                  {photos.map((item, indexOf) => {
+                  {/* {photos.map((item, indexOf) => {
                     return (
                       <ul key={item.id} className={styles.pagination}>
                         <li
@@ -156,7 +156,7 @@ const PhotoDetail = ({ photos, item }) => {
                         </li>
                       </ul>
                     );
-                  })}
+                  })} */}
 
                   <hr />
 
@@ -193,31 +193,21 @@ const PhotoDetail = ({ photos, item }) => {
                   </button>
 
                   <hr />
-                  {/* 
-            <div>
-              {photos.map((item) => {
-                return <p key={item.id}>
-                  <Link href={`/works/${item.id}`}>
-                    <a>{item.id}-{item.title}</a>
-                  </Link>
-                </p>;
-              })}
-            </div>
-            <hr /> */}
+
                 </div>
-                <h2 className="text-4xl font-bold tracking-tight">{item.title}</h2>
+                <h2 className="text-4xl font-bold tracking-tight">{page.title}</h2>
                 <div className="mt-5 text-sm text-gray-600 space-y-2">
                   <p className="flex items-center">
                     <CameraIcon className="w-4 h-4 mr-2 text-purple-500" />
-                    {item.author}
+                    {page.author}
                   </p>
                   <p className="flex items-center">
                     <MapPinIcon className="w-4 h-4 mr-2 text-purple-500" />
-                    {item.location}
+                    {page.location}
                   </p>
                   <p className="flex items-center">
                     <CalendarDaysIcon className="w-4 h-4 mr-2 text-purple-500" />
-                    {item.date}
+                    {page.date}
                   </p>
                 </div>
                 <div className="mt-5 text-sm text-gray-500 space-y-5">
@@ -227,10 +217,24 @@ const PhotoDetail = ({ photos, item }) => {
             </div>
             {/* <div className="overflow-hidden flex"> */}
             <section className="bg-slate-200">
-              <motion.div layoutId={`${item.id}`} className="">
+              <motion.div layoutId={`${page.id}`} className="">
+                <picture>
+                  <img
+                    src={page.src}
+                    alt={page.title}
+
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      marginBottom: "15px",
+                    }}
+                  />
+                </picture>
+              </motion.div>
+              <picture>
                 <img
-                  src={item.src}
-                  alt={item.title}
+                  src={page.src}
+                  alt={page.title}
 
                   style={{
                     width: "100%",
@@ -238,28 +242,19 @@ const PhotoDetail = ({ photos, item }) => {
                     marginBottom: "15px",
                   }}
                 />
-              </motion.div>
+              </picture>
+              <picture>
+                <img
+                  src={page.src}
+                  alt={page.title}
 
-              <img
-                src={item.src}
-                alt={item.title}
-
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  marginBottom: "15px",
-                }}
-              />
-              <img
-                src={item.src}
-                alt={item.title}
-
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  marginBottom: "15px",
-                }}
-              />
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    marginBottom: "15px",
+                  }}
+                />
+              </picture>
             </section>
           </div>
         </Layout>
@@ -285,11 +280,11 @@ export async function getStaticProps({ params }) {
   // const id = params.slug.split('-').slice(-1)[0]
   const data = await fetch('https://folio-egriboz.vercel.app/worksdata.json')
   const photos = await data.json()
-  const item = photos.find(item => item.slug === params.slug);
+  const page = photos.find(item => item.slug === params.slug);
 
   return {
     props: {
-      item,
+      page,
       photos
     }
   };
