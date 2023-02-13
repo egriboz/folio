@@ -43,16 +43,16 @@ const PhotoDetail = ({ photos, item }) => {
     console.log("photoId:", photoId);
     setCurrentPage(indexOf);
     indexOf && setPhoto(photos[indexOf]);
-  }, [indexOf]);
+  }, [indexOf, slug]);
 
   if (!photo) {
     return null;
   }
 
-  const onPageChange = (item) => {
-    // setCurrentPage(item);
-    // console.log("item click:", item);
-  };
+  // const onPageChange = (item) => {
+  //   // setCurrentPage(item);
+  //   // console.log("item click:", item);
+  // };
 
 
   const getPagePrev = photos.map((item, index) => {
@@ -64,16 +64,17 @@ const PhotoDetail = ({ photos, item }) => {
   // const getPagePrev = photos.filter((item, index) => index === prevPage).map(item => item.slug);
 
 
-  console.log("getPagePrev FILTER", getPagePrev);
+  // console.log("getPagePrev FILTER", getPagePrev);
+  // console.log("getPagePrev:getPagePrev:", getPagePrev[prevPage])
 
-  console.log("getPagePrev:getPagePrev:", getPagePrev[prevPage])
   const getPageNext = photos.map((item, index) => {
     if (index == nextPage) {
       return item.slug;
     }
   });
-  console.log("getPageNext:getPageNext:", getPageNext[nextPage])
-  console.log("getPagePrev", getPagePrev);
+
+  // console.log("getPageNext:getPageNext:", getPageNext[nextPage])
+  // console.log("getPagePrev", getPagePrev);
 
 
   // const goPrev = (prevPage) => {
@@ -123,28 +124,12 @@ const PhotoDetail = ({ photos, item }) => {
                       FOLIO
                     </a>
                   </Link>
-                  {/* <a
-                href={photo.link}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center px-2.5 py-1.5 rounded-md hover:bg-gray-100 text-gray-500 hover:text-purple-600 text-sm tracking-tight font-medium focus:outline-0 focus:ring-2 focus:ring-purple-400 group"
-              >
-                View Source
-                <ArrowUpRightIcon className="w-4 h-4 text-gray-400 ml-2 group-hover:text-purple-400" />
-              </a> */}
+
+
                 </div>
                 <div>
                   <hr />
-                  {/* <Pagination
-              photos={photos}
-              photoId={photoId}
-              items={photos.length} // 100
-              currentPage={currentPage} // 1
-              pageSize={pageSize} // 10
-              onPageChange={onPageChange}
-              style={{ border: "1px solid red" }}
-            />
-            <hr /> */}
+
 
                   {photos.map((item, indexOf) => {
                     return (
@@ -163,7 +148,6 @@ const PhotoDetail = ({ photos, item }) => {
                             }}
                           >
                             <a
-                              onClick={() => onPageChange(item.id)}
                               className={styles.pageLink}
                             >
                               {indexOf}-{item.title}-{currentPage}
@@ -243,7 +227,7 @@ const PhotoDetail = ({ photos, item }) => {
             </div>
             {/* <div className="overflow-hidden flex"> */}
             <section className="bg-slate-200">
-              <motion.div layoutId={`${indexOf}`} className="">
+              <motion.div layoutId={`${item.id}`} className="">
                 <img
                   src={item.src}
                   alt={item.title}
