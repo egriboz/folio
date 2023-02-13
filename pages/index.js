@@ -7,7 +7,7 @@ import { useEffect, useContext } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Script from "next/script";
-
+import slug from 'slug'
 export default function Home({ photos }) {
 
   return (

@@ -13,65 +13,23 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useContext, useState } from "react";
 // import { photos } from "../data/photos";
-import { photos } from "../../data/worksdata";
+// import { photos } from "../../data/worksdata";
 import { motion, AnimatePresence } from "framer-motion";
 import { LoremIpsum } from "react-lorem-ipsum";
 import Pagination from "../../components/Pagination";
 import Script from "next/script";
 
-const visible = { opacity: 1, y: 0, transition: { duration: 0.5 } };
-const itemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible,
-};
-
-const PhotoDetail = () => {
+const PhotoDetail = ({ photos, item }) => {
 
   const router = useRouter();
   console.log("router ==> ", { router });
   const { slug } = router.query;
   const { indexOf } = router.query;
-  const { photoId } = router.query;
+  const photoId = item.id;
+  console.log("photoId:::", photoId)
   const [photo, setPhoto] = useState();
   const totalPage = photos.length;
 
-  /*
-    const { asPath } = router;
-    console.log("asPathasPathasPath: ", asPath);
-    useEffect(() => {
-      const script = document.createElement('script');
-  
-      script.src = "external.js";
-      script.async = true;
-      script.strategy = "lazyOnload"
-      script.type = "module";
-  
-      document.body.appendChild(script);
-  
-      return () => {
-        document.body.removeChild(script);
-      }
-    }, [asPath]);
-  */
-
-
-  // console.log("photos[photoId]", photoId);
-  // console.log("photos::::=====:", photos);
-  // console.log("indexOf::::=====:", indexOf);
-  // console.log("photos.indexOf(slug)::::", photos.indexOf(slug));
-
-  // console.log("slug: : ", slug);
-  /* */
-  // const currentPost = photos.find((item) => item.id == photoId);
-  // const currentPostIndex = photos.findIndex((item) => item.id === photoId);
-  // const prevPost = photos[currentPostIndex - 1] || photos[photos.length - 1];
-  // const nextPost = photos[currentPostIndex + 1] || photos[0];
-  // console.log("currentPost: ", currentPost);
-  // console.log("currentPostIndex: ", currentPostIndex);
-  // console.log("prevPost: ", prevPost);
-  // console.log("nextPost: ", nextPost);
-
-  /* */
   /* */
   const [currentPage, setCurrentPage] = useState();
   const pageSize = 8;
@@ -263,19 +221,19 @@ const PhotoDetail = () => {
             </div>
             <hr /> */}
                 </div>
-                <h2 className="text-4xl font-bold tracking-tight">{photo.title}</h2>
+                <h2 className="text-4xl font-bold tracking-tight">{item.title}</h2>
                 <div className="mt-5 text-sm text-gray-600 space-y-2">
                   <p className="flex items-center">
                     <CameraIcon className="w-4 h-4 mr-2 text-purple-500" />
-                    {photo.author}
+                    {item.author}
                   </p>
                   <p className="flex items-center">
                     <MapPinIcon className="w-4 h-4 mr-2 text-purple-500" />
-                    {photo.location}
+                    {item.location}
                   </p>
                   <p className="flex items-center">
                     <CalendarDaysIcon className="w-4 h-4 mr-2 text-purple-500" />
-                    {photo.date}
+                    {item.date}
                   </p>
                 </div>
                 <div className="mt-5 text-sm text-gray-500 space-y-5">
@@ -287,8 +245,8 @@ const PhotoDetail = () => {
             <section className="bg-slate-200">
               <motion.div layoutId={`${indexOf}`} className="">
                 <img
-                  src={photo.src}
-                  alt={photo.title}
+                  src={item.src}
+                  alt={item.title}
 
                   style={{
                     width: "100%",
@@ -299,8 +257,8 @@ const PhotoDetail = () => {
               </motion.div>
 
               <img
-                src={photo.src}
-                alt={photo.title}
+                src={item.src}
+                alt={item.title}
 
                 style={{
                   width: "100%",
@@ -309,8 +267,8 @@ const PhotoDetail = () => {
                 }}
               />
               <img
-                src={photo.src}
-                alt={photo.title}
+                src={item.src}
+                alt={item.title}
 
                 style={{
                   width: "100%",
@@ -326,3 +284,29 @@ const PhotoDetail = () => {
   );
 };
 export default PhotoDetail;
+
+export async function getStaticPaths() {
+  const data = await fetch('https://portfolio-egriboz.vercel.app/worksdata.json')
+  const photos = await data.json()
+
+  const paths = photos.map(item => ({
+    params: { slug: item.slug.toString() },
+  }));
+
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }) {
+  // const id = params.slug.split('-').slice(-1)[0]
+  const data = await fetch('https://portfolio-egriboz.vercel.app/worksdata.json')
+  const photos = await data.json()
+  const item = photos.find(item => item.slug === params.slug);
+
+  return {
+    props: {
+      item,
+      photos
+    }
+  };
+}
+
